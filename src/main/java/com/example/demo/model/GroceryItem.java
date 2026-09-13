@@ -5,8 +5,11 @@ import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.time.Instant;
 
 @Document(collection = "grocery_items")
 @Getter
@@ -25,6 +28,10 @@ public class GroceryItem {
 
         @PositiveOrZero
         private int quantity;
+
+        /** Set by MongoDB auditing whenever this document is saved. */
+        @LastModifiedDate
+        private Instant updatedAt;
 
 
     public GroceryItem(String id, String name, String category, int quantity) {
