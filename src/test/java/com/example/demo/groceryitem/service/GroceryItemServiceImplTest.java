@@ -16,6 +16,7 @@ import org.springframework.data.domain.Sort;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
@@ -35,6 +36,28 @@ class GroceryItemServiceImplTest {
 
     @InjectMocks
     private GroceryItemServiceImpl groceryItemService;
+
+    @Test
+    void findItemByName_returnsItem_whenRepositoryFindsExactName() {
+        GroceryItem rice = new GroceryItem("item-rice", "Rice", "Grains", 10);
+        when(groceryItemRepository.findByName("Rice")).thenReturn(java.util.Optional.of(rice));
+
+        GroceryItem result = groceryItemService.findItemByName("Rice");
+
+        assertThat(result).isSameAs(rice);
+        verify(groceryItemRepository).findByName("Rice");
+    }
+
+    @Test
+    void findItemByName_throwsNotFoundException_whenRepositoryFindsNoItem() {
+        when(groceryItemRepository.findByName("Milk")).thenReturn(java.util.Optional.empty());
+
+        assertThatThrownBy(() -> groceryItemService.findItemByName("Milk"))
+                .isInstanceOf(java.util.NoSuchElementException.class)
+                .hasMessage("Grocery item not found: Milk");
+
+        verify(groceryItemRepository).findByName("Milk");
+    }
 
     @Test
     void findItems_trimsAndNormalizesCategory_beforeCallingCategoryQuery() {

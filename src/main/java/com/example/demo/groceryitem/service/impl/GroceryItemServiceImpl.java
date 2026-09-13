@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Locale;
+import java.util.NoSuchElementException;
 
 @Service
 public class GroceryItemServiceImpl implements IGroceryItemService {
@@ -18,6 +19,12 @@ public class GroceryItemServiceImpl implements IGroceryItemService {
 
     public GroceryItemServiceImpl(GroceryItemRepository groceryItemRepository) {
         this.groceryItemRepository = groceryItemRepository;
+    }
+
+    @Override
+    public GroceryItem findItemByName(String name) {
+        return groceryItemRepository.findByName(name)
+                .orElseThrow(() -> new NoSuchElementException("Grocery item not found: " + name));
     }
 
     @Override
