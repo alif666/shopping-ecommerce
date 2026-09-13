@@ -1,4 +1,4 @@
-package com.example.demo.groceryitem.repository;
+package com.example.demo.repository;
 
 import com.example.demo.model.GroceryItem;
 import org.junit.jupiter.api.AfterEach;

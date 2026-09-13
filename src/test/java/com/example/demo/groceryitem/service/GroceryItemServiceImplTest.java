@@ -1,8 +1,8 @@
 package com.example.demo.groceryitem.service;
 
-import com.example.demo.groceryitem.repository.GroceryItemRepository;
 import com.example.demo.groceryitem.service.impl.GroceryItemServiceImpl;
 import com.example.demo.model.GroceryItem;
+import com.example.demo.repository.GroceryItemRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
